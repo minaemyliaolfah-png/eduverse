@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#113c40"><meta name="description" content="Petualangan bahasa 3D dengan tiga tempat, karakter pilihan, dan kontrol sentuh."><title>EDUVERSE · Ekspedisi Bahasa</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23113c40'/%3E%3Ctext x='32' y='47' text-anchor='middle' font-size='42' fill='%23ffce70'%3EE%3C/text%3E%3C/svg%3E"><link rel="stylesheet" href="style.css"></head>
+<body>
+<canvas id="world" tabindex="0" aria-label="Dunia 3D EDUVERSE, geser untuk mengatur kamera"></canvas>
+<div id="loading">Menyiapkan Huma Betang…</div>
+<header class="hud top"><div class="profile glass"><button class="portrait" data-panel="avatar" aria-label="Ubah avatar">☺</button><div><strong id="playerName">Penjelajah</strong><small><span id="level">Level 1</span> · Penjelajah Bahasa</small><div class="xp"><i id="xpbar"></i></div></div><span class="coins">◈ <b id="coins">0</b></span></div><div class="brand"><b>EDUVERSE<span>✦</span></b><small>EKSPEDISI BAHASA</small></div><div class="top-actions"><span class="local">● SOLO</span><button data-panel="help" aria-label="Panduan">?</button><button id="onlineButton" data-panel="online" aria-label="Teman dan akun multiplayer">♟<small id="onlineState">Teman</small></button><button data-panel="settings" aria-label="Pengaturan">⚙</button></div></header>
+<nav class="hud rail" aria-label="Menu game"><button data-panel="world"><span>◎</span>Dunia</button><button data-panel="avatar"><span>☺</span>Avatar</button><button data-panel="bag"><span>▣</span>Tas</button><button data-panel="mission"><span>⚑</span>Misi</button><button data-panel="achievements"><span>♜</span>Prestasi</button><button id="home"><span>⌂</span>Plaza</button></nav>
+<aside class="hud map glass"><div><span>HUMA BETANG</span><span> N ↑</span></div><canvas id="minimap" width="180" height="150" aria-label="Peta posisi pemain dan portal"></canvas><small>⌖ <span id="location">Plaza utama</span></small></aside>
+<aside class="hud mission glass"><button id="toggleMission" aria-label="Buka atau ringkas misi" aria-expanded="false">⚑ <span id="areaName">Huma Betang</span> <span>⌄</span></button><div class="mission-details"><h3 id="missionTitle">Arsiparis Huma Betang</h3><p id="missionDescription">Temui Rani, penjaga arsip, lalu pelajari cara merawat koleksi kelas.</p><div id="missionSteps"></div><div id="missionReward" class="reward">✦ 150 XP · ◈ 50 koin</div></div></aside>
+<div id="objective" class="hud" hidden><span id="objectiveArrow">↑</span><span id="objectiveText"></span></div>
+<div class="hud bottom-guide"><kbd>W A S D</kbd> Bergerak <i>·</i> Seret mouse untuk kamera <i>·</i> <kbd>E</kbd> Interaksi</div>
+<div class="hud actions"><button id="run" aria-pressed="false">⇧<small>Lari</small></button><button id="jump">↟<small>Lompat</small></button><button id="interact">E<small>Interaksi</small></button></div>
+<div id="joystick" class="hud" role="group" aria-label="Joystick gerak: tahan dan geser untuk berjalan"><span class="stick-arrows">✣</span><span id="joystickKnob"></span><small>GERAK</small></div>
+<button id="fullscreen" class="hud" aria-label="Layar penuh">⛶</button><div id="touchHint" class="hud">Geser dunia untuk kamera ↔</div>
+<button id="prompt" class="hud" hidden></button><div id="toast" role="status"></div>
+<dialog id="panel"><button id="closePanel" aria-label="Tutup panel">×</button><div id="panelContent"></div></dialog>
+<script type="module" src="js/main.js"></script>
+</body></html>

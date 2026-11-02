@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function color(value) { return value is string && value.matches('^#[a-fA-F0-9]{6}$'); }
+    function expedition(e) {
+      return e is map && e.keys().hasOnly(['found','completed']) && e.keys().hasAll(['found','completed'])
+        && e.found is list && e.found.size() <= 3 && e.found.hasOnly([0,1,2]) && e.completed is bool
+        && (!e.completed || e.found.toSet().size() == 3);
+    }
+    function progress(p) {
+      return p is map && p.keys().hasOnly(['name','character','destination','skin','shirt','hair','xp','coins','talked','read','passed','claimed','best','attempts','expeditions'])
+        && p.keys().hasAll(['name','character','destination','skin','shirt','hair','xp','coins','talked','read','passed','claimed','best','attempts','expeditions'])
+        && p.name is string && p.name.size() >= 2 && p.name.size() <= 20
+        && p.character in ['explorer','ranger','maker'] && p.destination in ['hub','river','forest']
+        && color(p.skin) && color(p.shirt) && color(p.hair)
+        && p.talked is bool && p.read is bool && p.passed is bool && p.claimed is bool
+        && p.best is int && p.best >= 0 && p.best <= 5
+        && p.attempts is list && p.attempts.size() <= 20 && p.attempts.hasOnly([0,1,2,3,4,5])
+        && p.expeditions is map && p.expeditions.keys().hasOnly(['river','forest'])
+        && expedition(p.expeditions.river) && expedition(p.expeditions.forest)
+        && p.xp == (p.claimed ? 150 : 0) + (p.expeditions.river.completed ? 100 : 0) + (p.expeditions.forest.completed ? 100 : 0)
+        && p.coins == (p.claimed ? 50 : 0) + (p.expeditions.river.completed ? 30 : 0) + (p.expeditions.forest.completed ? 30 : 0);
+    }
+    // Private practice state. Completion is self-reported; this is NOT an official grade.
+    match /practiceProfiles/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow list, delete: if false;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['version','progress','updatedAt'])
+        && request.resource.data.version == 1 && request.resource.data.updatedAt == request.time
+        && progress(request.resource.data.progress);
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

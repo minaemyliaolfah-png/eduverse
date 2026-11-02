@@ -1,0 +1,6 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {initialProgress,loadProgress,claimReward,youtubeId} from '../js/progress.js';
+test('hadiah hanya setelah tiga syarat dan tidak berulang',()=>{const p=initialProgress();assert.equal(claimReward(p),false);p.talked=p.read=p.passed=true;assert.equal(claimReward(p),true);assert.equal(claimReward(p),false);assert.equal(p.xp,150);assert.equal(p.coins,50);});
+test('progres dapat dimuat ulang dan data rusak ditangani',()=>{const p=initialProgress();p.talked=p.read=p.passed=true;claimReward(p);const loaded=loadProgress({getItem:()=>JSON.stringify(p)});assert.equal(loaded.xp,150);assert.equal(claimReward(loaded),false);assert.deepEqual(loadProgress({getItem:()=>'{rusak'}),initialProgress());assert.deepEqual(loadProgress({getItem:()=>{throw Error();}}),initialProgress());});
+test('URL video membatasi domain, protokol, dan ID',()=>{for(const url of ['https://www.youtube.com/watch?v=dQw4w9WgXcQ','https://youtu.be/dQw4w9WgXcQ?t=12','https://youtube.com/shorts/dQw4w9WgXcQ'])assert.equal(youtubeId(url),'dQw4w9WgXcQ');for(const url of ['https://youtube.com.evil.com/watch?v=dQw4w9WgXcQ','javascript:alert(1)','https://youtu.be/bad','http://youtube.com/watch?v=dQw4w9WgXcQ'])assert.equal(youtubeId(url),null);});
