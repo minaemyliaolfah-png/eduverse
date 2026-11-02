@@ -1,7 +1,9 @@
 {
-  "apiKey": "",
-  "authDomain": "",
-  "projectId": "",
-  "databaseURL": "",
-  "appId": ""
+  "apiKey": "AIzaSyD-77CNQ6t63Yn-jAgh1xAW3dOo5dWi66s",
+  "authDomain": "eduverse-d2f6a.firebaseapp.com",
+  "projectId": "eduverse-d2f6a",
+  "databaseURL": "https://eduverse-d2f6a-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  "appId": "1:1083914473017:web:1585809131657cc240c7e8",
+  "storageBucket": "eduverse-d2f6a.firebasestorage.app",
+  "messagingSenderId": "1083914473017"
 }
